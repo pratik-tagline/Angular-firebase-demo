@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './auth/guard-service/auth.guard';
+import { AuthGuard } from './auth/auth-guard/auth.guard';
 
 const routes: Routes = [
   {
@@ -14,12 +14,6 @@ const routes: Routes = [
     loadChildren: () => import('../app/pages/pages.module').then((m) => m.PagesModule),
   },
 
-  // {
-  //   path: '',
-  //   redirectTo: 'auth',
-  //   pathMatch: 'full'
-
-  // }
 ];
 
 @NgModule({

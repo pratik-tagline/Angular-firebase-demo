@@ -3,7 +3,6 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { resolve } from 'dns';
 // import firebase from "firebase/app";
 import "firebase/auth";
 import * as auth from 'firebase/auth';
@@ -13,7 +12,7 @@ import { User } from "../../app/model/user"
   providedIn: 'root'
 })
 export class AuthService {
-  userData: any;
+  public userData: any;
 
   constructor(
     public router: Router,
@@ -21,35 +20,28 @@ export class AuthService {
     public fireAuth: AngularFireAuth,
     public fireDB: AngularFireDatabase,
     public ngZone: NgZone
-  ) {
-    this.fireAuth.authState.subscribe((user) => {
-      if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user')!);
-      } else {
-        localStorage.setItem('user', 'null');
-        JSON.parse(localStorage.getItem('user')!);
-      }
-    });
-  }
+  ) { }
 
   SignIn(email: string, password: string) {
     return this.fireAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
-        this.ngZone.run(() => {
+        if (result) {
+          this.userData = result['user'];
+          localStorage.setItem('user', JSON.stringify(this.userData));
+          JSON.parse(localStorage.getItem('user')!);
           this.router.navigate(['pages']);
-        });
+        } else {
+          localStorage.setItem('user', 'null');
+          JSON.parse(localStorage.getItem('user')!);
+        }
       })
       .catch((error) => {
         window.alert(error.message);
       });
   }
 
-  SignUp(
-    userModel: User
-  ) {
+  SignUp(userModel: User) {
     return this.fireAuth
       .createUserWithEmailAndPassword(userModel.email, userModel.password)
       .then((result: any) => {
@@ -63,15 +55,13 @@ export class AuthService {
               contactNo: userModel.contactNo,
             };
             basePath.push(data);
-            this.router.navigate(['sign-in']);
+            this.router.navigate(['/auth/sign-in']);
           }
 
         } else {
           window.alert('SignUp failed');
-          this.router.navigate(['sign-up']);
+          this.router.navigate(['/auth/sign-up']);
         }
-        /* Call the SendVerificaitonMail() function when new user sign 
-        up and returns promise */
       })
       .catch((error) => {
         window.alert(error.message);
@@ -86,7 +76,7 @@ export class AuthService {
   SignOut() {
     return this.fireAuth.signOut().then(() => {
       localStorage.removeItem('user');
-      this.router.navigate(['sign-in']);
+      this.router.navigate(['/auth/sign-in']);
     });
   }
 

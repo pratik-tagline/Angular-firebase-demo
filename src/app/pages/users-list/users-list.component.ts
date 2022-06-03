@@ -22,18 +22,10 @@ export class UsersListComponent implements OnInit {
           ...data.val()[key],
         };
       });
-      console.log(this.allUsers);
     });
   }
 
-  ngOnInit(): void {
-    // this.getAllUsers();
-  }
-
-  async getAllUsers() {
-    this.allUsers = await this.authService.GetAllUsers();
-    console.log(this.allUsers)
-  }
+  ngOnInit(): void { }
 
 
 }
