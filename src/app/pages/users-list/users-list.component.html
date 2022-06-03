@@ -3,16 +3,16 @@
         <tr>
             <th scope="col">First Name</th>
             <th scope="col">Last Name</th>
-            <th scope="col">User Name</th>
+            <th scope="col">Email</th>
             <th scope="col">Contact No</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <!-- <td scope="col">{{feesDetails.refNumber}}</td>
-			<td scope="col">{{feesDetails.bookingDate}}</td>
-			<td scope="col">{{feesDetails.rentAmount}}</td>
-			<td scope="col">{{feesDetails.depositAmount}}</td> -->
+        <tr *ngFor="let user of allUsers">
+            <td scope="col">{{user.firstName}}</td>
+            <td scope="col">{{user.lastName}}</td>
+            <td scope="col">{{user.email}}</td>
+            <td scope="col">{{user.contactNo}}</td>
         </tr>
     </tbody>
 </table>

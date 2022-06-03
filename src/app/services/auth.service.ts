@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
+import { resolve } from 'dns';
 // import firebase from "firebase/app";
 import "firebase/auth";
 import * as auth from 'firebase/auth';
@@ -87,6 +88,12 @@ export class AuthService {
       localStorage.removeItem('user');
       this.router.navigate(['sign-in']);
     });
+  }
+
+  GetAllUsers() {
+    return new Promise<any>((resolve) => {
+      this.fireStore.collection('users').valueChanges().subscribe(Users => resolve(Users));
+    })
   }
 
   // public signUp(

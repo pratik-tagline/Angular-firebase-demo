@@ -19,10 +19,7 @@ const routes: Routes = [
     component: UsersListComponent
   },
 
-  {
-    path: '**',
-    redirectTo: ''
-  }
+
 ];
 
 @NgModule({
